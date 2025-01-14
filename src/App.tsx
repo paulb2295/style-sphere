@@ -1,42 +1,38 @@
-
+import Directory from "./components/directory/directory.component.tsx";
+import {ICategoryProps} from "./utils/interfaces/ICategoryProps.ts";
 const App = () => {
 
-    const categories = [
+    const categories : ICategoryProps[]  = [
         {
             id: 1,
-            title: 'Hats'
+            title: 'hats',
+            imageUrl: 'https://i.ibb.co/cvpntL1/hats.png',
         },
         {
             id: 2,
-            title: 'Jackets'
+            title: 'jackets',
+            imageUrl: 'https://i.ibb.co/px2tCc3/jackets.png',
         },
         {
             id: 3,
-            title: 'Sneakers'
+            title: 'sneakers',
+            imageUrl: 'https://i.ibb.co/0jqHpnp/sneakers.png',
         },
         {
             id: 4,
-            title: 'Women\'s'
+            title: 'womens',
+            imageUrl: 'https://i.ibb.co/GCCdy8t/womens.png',
         },
         {
             id: 5,
-            title: 'Men\'s'
+            title: 'mens',
+            imageUrl: 'https://i.ibb.co/R70vBrQ/men.png',
         }
     ];
 
     return (
-        <div className="categoriee-container">
-            {categories.map(({id, title}) => (
-            <div key={id} className="category-container">
-                <div className="background-image"/>
-                <div className="category-body-container">
-                    <h2>{title}</h2>
-                    <p>Shop Now</p>
-                </div>
-            </div>
-            ))}
-        </div>
-    )
+        <Directory categories={categories}  />
+    );
 }
 
 export default App
