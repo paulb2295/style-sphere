@@ -1,38 +1,18 @@
-import Directory from "./components/directory/directory.component.tsx";
-import {ICategoryProps} from "./utils/interfaces/ICategoryProps.ts";
+import Home from "./routes/home/home.component.tsx";
+import {Route, Routes} from "react-router";
+import Navigation from "./routes/navigation/navigation.component.tsx";
+
 const App = () => {
 
-    const categories : ICategoryProps[]  = [
-        {
-            id: 1,
-            title: 'hats',
-            imageUrl: 'https://i.ibb.co/cvpntL1/hats.png',
-        },
-        {
-            id: 2,
-            title: 'jackets',
-            imageUrl: 'https://i.ibb.co/px2tCc3/jackets.png',
-        },
-        {
-            id: 3,
-            title: 'sneakers',
-            imageUrl: 'https://i.ibb.co/0jqHpnp/sneakers.png',
-        },
-        {
-            id: 4,
-            title: 'womens',
-            imageUrl: 'https://i.ibb.co/GCCdy8t/womens.png',
-        },
-        {
-            id: 5,
-            title: 'mens',
-            imageUrl: 'https://i.ibb.co/R70vBrQ/men.png',
-        }
-    ];
-
     return (
-        <Directory categories={categories}  />
+        <Routes>
+            <Route path='/' element={<Navigation/>} >
+                <Route index element={<Home />}/>
+            </Route>
+        </Routes>
     );
 }
 
 export default App
+
+
