@@ -1,5 +1,5 @@
 import "./category-item.styles.scss"
-import {ICategoryProps} from "../../utils/interfaces/ICategoryProps.ts";
+import {ICategoryProps} from "../../utils/interfaces/props/ICategoryProps.ts";
 
 const CategoryItem = (props: ICategoryProps) => {
     const {title, imageUrl} = props;
