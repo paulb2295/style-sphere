@@ -1,16 +1,13 @@
-import axios from "axios";
-import {BASE_URL} from "../../utils/constants/constants-file.ts";
 import {Dispatch, SetStateAction} from "react";
 import {ICurrentUser} from "../../utils/interfaces/user/ICurrentUser.ts";
+import {axiosInstance} from "../axios/axiosInstance.ts";
 
 const signOutService = async (setCurrentUser: Dispatch<SetStateAction<ICurrentUser>>, currentUser: ICurrentUser) => {
 
-    await axios.post(`${BASE_URL}/api/auth/logout`, {}, {
+    await axiosInstance.post("/api/auth/logout", {}, {
         headers: {
             Authorization: `Bearer ${currentUser.access_token}`,
-            Accept: "application/json",
         },
-        withCredentials: true
     })
         .then(() => setCurrentUser({
             id: -1,
@@ -21,12 +18,10 @@ const signOutService = async (setCurrentUser: Dispatch<SetStateAction<ICurrentUs
             access_token: ''
         }))
         .catch((error: Error) => {
-            console.log(error)
+            alert(error)
         })
 
 }
-
-
 
 export default signOutService;
 

@@ -47,7 +47,15 @@ const SignUpForm = () => {
                 <FormInput label='Confirm Password' type='password' name='confirmPassword' value={confirmPassword} handleChange={handleChange} />
                 <Button buttonType='normal' type="submit">Sign Up</Button>
             </form>
-            <p>{error ? error : success}</p>
+            {error ? (
+                <p  style={{color: 'red'}}
+                    dangerouslySetInnerHTML={{
+                        __html: error.replace(/\n/g, '<br/>'),
+                    }}
+                />
+            ) : (
+                <p style={{color: 'green'}}>{success}</p>
+            )}
         </div>
     );
 }

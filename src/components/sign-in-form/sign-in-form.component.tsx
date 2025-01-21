@@ -40,7 +40,15 @@ const SignInForm = () => {
                 <FormInput label="password" type='password' name='password' value={password} handleChange={handleChange} />
                 <Button buttonType='normal' type='submit'>Sign In</Button>
             </form>
-            <p>{error? error : success}</p>
+            {error ? (
+                <p  style={{color: 'red'}}
+                    dangerouslySetInnerHTML={{
+                        __html: error.replace(/\n/g, '<br/>'),
+                    }}
+                />
+            ) : (
+                <p style={{color: 'green'}}>{success}</p>
+            )}
         </div>
     );
 }

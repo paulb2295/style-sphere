@@ -1,9 +1,8 @@
 import {Dispatch, FormEvent, SetStateAction} from "react";
-import {BASE_URL} from "../../utils/constants/constants-file.ts";
 import {ICurrentUser} from "../../utils/interfaces/user/ICurrentUser.ts";
 import {jwtDecode} from "jwt-decode";
 import {IUserSignInRequest} from "../../utils/interfaces/user/IUserSignInRequest.ts";
-import {axiosClient} from "../axios/axios.client.ts";
+import {axiosInstance} from "../axios/axiosInstance.ts";
 
 const signInService = (
     event: FormEvent<HTMLFormElement>,
@@ -27,27 +26,23 @@ const signInService = (
         "password": password,
     }
 
-    axiosClient.post(`${BASE_URL}/api/auth/authenticate`, payload)
+    axiosInstance.post(`/api/auth/authenticate`, payload)
         .then((res) => {
-            if (res.status === 201 || res.status === 200) {
-                setSuccess("Sign in successful!");
-                const decodedToken: ICurrentUser = jwtDecode(res.data.access_token);
-                const currentUser: ICurrentUser = {
-                    id: decodedToken.id,
-                    firstname: decodedToken.firstname,
-                    lastname: decodedToken.lastname,
-                    email: decodedToken.email,
-                    role: decodedToken.role,
-                    access_token: res.data.access_token
-                }
-                setCurrentUser(currentUser);
-                setUser({email: '', password: ''});
-            } else {
-                setError('"An error occurred during registration."')
+            setSuccess("Sign in successful!");
+            const decodedToken: ICurrentUser = jwtDecode(res.data.access_token);
+            const currentUser: ICurrentUser = {
+                id: decodedToken.id,
+                firstname: decodedToken.firstname,
+                lastname: decodedToken.lastname,
+                email: decodedToken.email,
+                role: decodedToken.role,
+                access_token: res.data.access_token
             }
+            setCurrentUser(currentUser);
+            setUser({email: '', password: ''});
         })
         .catch(error => {
-            console.log(error);
+            setError(error.message);
         })
 }
 

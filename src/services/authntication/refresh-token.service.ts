@@ -1,13 +1,13 @@
 import {ICurrentUser} from "../../utils/interfaces/user/ICurrentUser.ts";
 import {jwtDecode} from "jwt-decode";
 import {Dispatch, SetStateAction} from "react";
-import {axiosClient} from "../axios/axios.client.ts";
+import {axiosInstance} from "../axios/axiosInstance.ts";
 
 const refreshAccessToken = async (setCurrentUser: Dispatch<SetStateAction<ICurrentUser>> ) => {
 
     try {
         const response =
-            await axiosClient.post("/api/auth/refresh-token");
+            await axiosInstance.post("/api/auth/refresh-token");
         if (response.status === 201 || response.status === 200) {
             const newAccessToken: string = response.data.access_token;
             const decodedToken: ICurrentUser = jwtDecode(newAccessToken);

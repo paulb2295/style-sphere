@@ -8,7 +8,6 @@ import signOutService from "../../services/authntication/sign-out.service.ts";
 
 const Navigation = () => {
     const {currentUser, setCurrentUser} = useContext(UserContext);
-    console.log(currentUser);
     return (
         <Fragment>
             <div className="navigation">
