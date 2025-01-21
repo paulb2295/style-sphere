@@ -21,7 +21,7 @@ const refreshAccessToken = async (setCurrentUser: Dispatch<SetStateAction<ICurre
             });
         }
     } catch (error) {
-        //console.error("Error refreshing token", error);
+        alert("Error refreshing token" + error);
         setCurrentUser({id: -1,
             firstname: '',
             lastname: '',
