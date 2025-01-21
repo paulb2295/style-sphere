@@ -4,12 +4,15 @@ import './index.scss'
 import App from './App.tsx'
 import {BrowserRouter} from "react-router";
 import {UserProvider} from "./contexts/user.context.tsx";
+import {ProductProvider} from "./contexts/products.context.tsx";
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <BrowserRouter>
             <UserProvider>
-            <App/>
+                <ProductProvider>
+                    <App/>
+                </ProductProvider>
             </UserProvider>
         </BrowserRouter>
     </StrictMode>,

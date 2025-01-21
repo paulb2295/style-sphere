@@ -2,12 +2,8 @@ import {IUserSignInRequest} from "../../utils/interfaces/user/IUserSignInRequest
 import FormInput from "../form-input/form-input.component.tsx";
 import {ChangeEvent, FormEvent, useState, useContext} from "react";
 import Button from "../button/button.component.tsx";
-//import axios from "axios";
-//import {ACCESS_TOKEN_NAME, BASE_URL} from "../../utils/constants/constants-file.ts";
 import "./sign-in-form.styles.scss"
-//import {ICurrentUser} from "../../utils/interfaces/ICurrentUser.ts";
 import {UserContext} from "../../contexts/user.context.tsx";
-//import {jwtDecode} from "jwt-decode";
 import signInService from "../../services/authntication/sign-in.service.ts";
 
 const SignInForm = () => {

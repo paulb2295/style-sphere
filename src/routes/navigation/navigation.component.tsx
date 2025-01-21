@@ -15,6 +15,9 @@ const Navigation = () => {
                     <img src={CrownLogo} alt='logo' className='logo'/>
                 </Link>
                 <div className='nav-links-container'>
+                    <Link className='nav-link' to='/shop'>
+                        SHOP
+                    </Link>
                     {currentUser.access_token === '' ?
                         <Link className='nav-link' to='/auth'>
                             SIGN IN
