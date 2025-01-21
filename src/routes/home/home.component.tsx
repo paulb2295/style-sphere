@@ -1,4 +1,4 @@
-import {ICategoryProps} from "../../utils/interfaces/ICategoryProps.ts";
+import {ICategoryProps} from "../../utils/interfaces/props/ICategoryProps.ts";
 import Directory from "../../components/directory/directory.component.tsx";
 
 const Home = () => {

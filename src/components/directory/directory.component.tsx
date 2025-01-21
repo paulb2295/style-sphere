@@ -1,5 +1,5 @@
 import CategoryItem from "../category-item/category-item.component.tsx";
-import {IDirectoryProps} from "../../utils/interfaces/IDirectoryProps.ts";
+import {IDirectoryProps} from "../../utils/interfaces/props/IDirectoryProps.ts";
 import "./directory.styles.scss"
 const Directory = ({categories}: IDirectoryProps) => {
 
