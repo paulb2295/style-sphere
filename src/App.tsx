@@ -2,7 +2,7 @@ import Home from "./routes/home/home.component.tsx";
 import {Route, Routes} from "react-router";
 import Navigation from "./routes/navigation/navigation.component.tsx";
 import Authentication from "./routes/authentication/authentication.component.tsx";
-import Shop from "./components/shop/shop.component.tsx";
+import Shop from "./routes/shop/shop.component.tsx";
 
 
 const App = () => {
