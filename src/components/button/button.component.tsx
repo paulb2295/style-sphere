@@ -8,6 +8,7 @@ const Button = (props: IButtonProps) => {
       <button
           className={`button-container ${BUTTON_TYPE_CLASSES[buttonType]}`}
           type={type}
+          onClick={props.onClick}
       >
           {children}
       </button>
