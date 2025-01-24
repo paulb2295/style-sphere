@@ -13,13 +13,11 @@ createRoot(document.getElementById('root')!).render(
         <BrowserRouter>
             <UserProvider>
                 <CartItemsProvider>
-                <ProductProvider>
-                    <CartProvider>
-
+                    <ProductProvider>
+                        <CartProvider>
                             <App/>
-
-                    </CartProvider>
-                </ProductProvider>
+                        </CartProvider>
+                    </ProductProvider>
                 </CartItemsProvider>
             </UserProvider>
         </BrowserRouter>

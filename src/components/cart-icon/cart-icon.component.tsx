@@ -6,21 +6,16 @@ import {CartItemsContext} from "../../contexts/cart-items.context.tsx";
 
 const CartIcon = () => {
     const {isCartOpen, setIsCartOpen} = useContext(CartContext);
-    const {cartItems} = useContext(CartItemsContext);
+    const {cartCount} = useContext(CartItemsContext);
 
     const toggleIsCartOpen = () => {
         setIsCartOpen(!isCartOpen);
     }
 
-    const itemsNumber = () => {
-        return cartItems.reduce(
-            (sum, item) =>  sum + item.quantity, 0
-        );
-    }
     return (
         <div className='cart-icon-container' onClick={toggleIsCartOpen}>
-            <img className='shopping-icon' src={ShoppingIcon} alt="Shopping Bag Icon" />
-            <span className='item-count'>{itemsNumber()}</span>
+            <img className='shopping-icon' src={ShoppingIcon} alt="Shopping Bag Icon"/>
+            <span className='item-count'>{cartCount}</span>
         </div>
     );
 }
