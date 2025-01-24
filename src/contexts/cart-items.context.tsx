@@ -1,4 +1,4 @@
-import {createContext, ReactNode, useState} from "react";
+import {createContext, ReactNode, useEffect, useState} from "react";
 import {ICartItemsContextType} from "../utils/interfaces/cart/ICartItemsContextType.ts";
 import {ICartItem} from "../utils/interfaces/cart/ICartItem.ts";
 import {IProduct} from "../utils/interfaces/shop/IProduct.ts";
@@ -6,18 +6,53 @@ import {IProduct} from "../utils/interfaces/shop/IProduct.ts";
 export const CartItemsContext = createContext<ICartItemsContextType>({
     cartItems: [],
     setCartItems: () => null,
-    addItemToCart: () => null
+    addItemToCart: () => null,
+    deleteItemFromCart: () => null,
+    increaseDecreaseItemQuantity: () => null,
+    cartTotal: 0,
+    cartCount: 0
 });
 
 export const CartItemsProvider = ({children}: { children: ReactNode }) => {
     const [cartItems, setCartItems] = useState<ICartItem[]>([]);
+    const [cartTotal, setCartTotal] = useState(0);
+    const [cartCount, setCartCount] = useState(0);
+
+    useEffect(() => {
+        const newTotal = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+        setCartTotal(newTotal);
+    }, [cartItems]);
+
+    useEffect(() => {
+        const newCartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+        setCartCount(newCartCount);
+    }, [cartItems])
+
 
     const addItemToCart = (product: IProduct) => {
         const updatedCartItems = addCartItem(cartItems, product);
         setCartItems(updatedCartItems);
     }
 
-    const value = {cartItems, setCartItems, addItemToCart};
+    const deleteItemFromCart = (cartItem: ICartItem) => {
+        const updatedCartItems = deleteCartItem(cartItems, cartItem);
+        setCartItems(updatedCartItems);
+    }
+
+    const increaseDecreaseItemQuantity = (cartItem: ICartItem, action: boolean) => {
+        const updatedCartItems = increaseDecreaseQuantity(cartItems, cartItem, action);
+        setCartItems(updatedCartItems);
+    }
+
+    const value = {
+        cartItems,
+        setCartItems,
+        addItemToCart,
+        deleteItemFromCart,
+        increaseDecreaseItemQuantity,
+        cartTotal,
+        cartCount
+    };
 
     return (
         <CartItemsContext.Provider value={value}>
@@ -41,4 +76,24 @@ const addCartItem = (cartArray: ICartItem[], productToAdd: IProduct): ICartItem[
         return [...cartArray, newCartItem];
     }
 };
+
+const deleteCartItem = (cartArray: ICartItem[], itemToDelete: ICartItem) => {
+    return cartArray.filter(item => item.id !== itemToDelete.id)
+}
+
+const increaseDecreaseQuantity = (cartArray: ICartItem[], cartItem: ICartItem, action: boolean) => {
+    const existingCartItem = cartArray.find(item => item.id === cartItem.id);
+
+    if (existingCartItem) {
+        if (!action && existingCartItem.quantity === 1) {
+            return deleteCartItem(cartArray, cartItem)
+        }
+        return cartArray.map(item =>
+            item.id === cartItem.id ? {...item, quantity: item.quantity + (action ? 1 : -1)}
+                : item
+        )
+    }
+    return cartArray;
+}
+
 
