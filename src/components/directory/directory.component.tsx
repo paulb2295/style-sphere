@@ -1,18 +1,19 @@
-import CategoryItem from "../category-item/category-item.component.tsx";
+import DirectoryItem from "../directory-item/directory-item.component.tsx";
 import {IDirectoryProps} from "../../utils/interfaces/props/IDirectoryProps.ts";
-import "./directory.styles.scss"
+import "./directory.styles.tsx"
+import {DirectoryContainer} from "./directory.styles.tsx";
 
 const Directory = ({categories}: IDirectoryProps) => {
 
     return (
-        <div className="directory-container">
+        <DirectoryContainer>
             {categories.map(({id, title, imageUrl}) => (
-                <CategoryItem
+                <DirectoryItem
                     key={id}
                     title={title}
                     imageUrl={imageUrl}/>
             ))}
-        </div>
+        </DirectoryContainer>
     );
 }
 

@@ -1,41 +1,46 @@
-import {Outlet, Link} from "react-router";
+import {Outlet} from "react-router";
 import {Fragment, useContext} from "react";
 import CrownLogo from "../../assets/crown.svg";
-import "./navigation.styles.scss"
+import {NavigationContainer, NavLinks, LogoContainer, NavLink, Anchor} from "./navigation.styles.tsx"
 import {UserContext} from "../../contexts/user.context.tsx";
 import signOutService from "../../services/authntication/sign-out.service.ts";
 import CartIcon from "../../components/cart-icon/cart-icon.component.tsx";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component.tsx";
 import {CartContext} from "../../contexts/cart.context.tsx";
+import {CartItemsContext} from "../../contexts/cart-items.context.tsx";
 
 const Navigation = () => {
     const {currentUser, setCurrentUser} = useContext(UserContext);
-    const {isCartOpen} = useContext(CartContext)
+    const {isCartOpen} = useContext(CartContext);
+    const {setCartItems} = useContext(CartItemsContext);
 
     return (
         <Fragment>
-            <div className="navigation">
-                <Link className='logo-container' to='/'>
+            <NavigationContainer>
+                <LogoContainer to='/'>
                     <img src={CrownLogo} alt='logo' className='logo'/>
-                </Link>
-                <div className='nav-links-container'>
-                    <Link className='nav-link' to='/shop'>
+                </LogoContainer>
+                <NavLinks>
+                    <NavLink to='/shop'>
                         SHOP
-                    </Link>
+                    </NavLink>
                     {currentUser.access_token === '' ?
-                        <Link className='nav-link' to='/auth'>
+                        <NavLink to='/auth'>
                             SIGN IN
-                        </Link> :
-                        <a className='nav-link' onClick={
-                            async () => {await signOutService(setCurrentUser, currentUser)}
+                        </NavLink> :
+                        <Anchor onClick={
+                            async () => {
+                                await signOutService(setCurrentUser, currentUser);
+                                setCartItems([]);
+                            }
                         }>
                             SIGN OUT
-                        </a>
+                        </Anchor>
                     }
                     <CartIcon />
-                </div>
+                </NavLinks>
                 {isCartOpen && <CartDropdown />}
-            </div>
+            </NavigationContainer>
             <Outlet/>
         </Fragment>
     );

@@ -1,17 +1,23 @@
-import "./button.styles.scss"
+import {BaseButton, GoogleButton, InvertedButton} from "./button.styles.tsx"
 import {IButtonProps} from "../../utils/interfaces/props/IButtonProps.ts";
-import {BUTTON_TYPE_CLASSES} from "../../utils/constants/constants-file.ts";
+import {BUTTON_STYLE_TYPE} from "../../utils/constants/constants-file.ts";
+
+const getButton = (buttonType : string = "base") => {
+    return buttonType === BUTTON_STYLE_TYPE[0]?
+        BaseButton : buttonType === BUTTON_STYLE_TYPE[1]?
+            InvertedButton: GoogleButton;
+}
 
 const Button = (props: IButtonProps) => {
     const {children, buttonType, type} = props;
+    const CustomButton = getButton(buttonType);
     return (
-      <button
-          className={`button-container ${BUTTON_TYPE_CLASSES[buttonType]}`}
+      <CustomButton
           type={type}
           onClick={props.onClick}
       >
           {children}
-      </button>
+      </CustomButton>
     );
 }
 
