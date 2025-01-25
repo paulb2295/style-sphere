@@ -1,6 +1,7 @@
 import CategoryItem from "../category-item/category-item.component.tsx";
 import {IDirectoryProps} from "../../utils/interfaces/props/IDirectoryProps.ts";
 import "./directory.styles.scss"
+
 const Directory = ({categories}: IDirectoryProps) => {
 
     return (
@@ -9,7 +10,7 @@ const Directory = ({categories}: IDirectoryProps) => {
                 <CategoryItem
                     key={id}
                     title={title}
-                    imageUrl={imageUrl} />
+                    imageUrl={imageUrl}/>
             ))}
         </div>
     );

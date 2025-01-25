@@ -1,23 +1,36 @@
 import {createContext, ReactNode, useEffect, useState} from "react";
 import {IProductsContextType} from "../utils/interfaces/shop/IProductsContextType.ts";
 import {IProduct} from "../utils/interfaces/shop/IProduct.ts";
-import SHOP_DATA from "../data/shop-data.json"
+import {getAllProducts, getProductsByCategory} from "../services/store/store.service.ts";
 
 export const ProductsContext = createContext<IProductsContextType>(
     {
-        products : [],
-        setProducts : () => null
+        products: [],
+        allProducts: [],
+        setProducts: () => null,
+        fetchProductsByCategory: () => null,
     }
 );
 
-export const ProductProvider = ({ children }: { children: ReactNode }) => {
+export const ProductProvider = ({children}: { children: ReactNode }) => {
     const [products, setProducts] = useState<IProduct[]>([]);
+    const [allProducts, setAllProducts] = useState<IProduct[]>([]);
+
+    const fetchProductsByCategory = async (category: string) => {
+        const productList = await getProductsByCategory(category);
+        setProducts(productList);
+    };
+
 
     useEffect(() => {
-        setProducts(SHOP_DATA);
+        const fetchAllProducts = async () => {
+            const productList = await getAllProducts();
+            setAllProducts(productList);
+        };
+        fetchAllProducts();
     }, [])
 
-    const value = {products, setProducts};
+    const value = {products, setProducts,  fetchProductsByCategory, allProducts};
 
     return <ProductsContext.Provider value={value}>
         {children}
