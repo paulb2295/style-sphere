@@ -7,6 +7,7 @@ import "./sign-up-form.styles.scss"
 import Button from "../button/button.component.tsx";
 import {UserContext} from "../../contexts/user.context.tsx";
 import signUpService from "../../services/authntication/sign-up.service.ts";
+import {useNavigate} from "react-router";
 
 const SignUpForm = () => {
 
@@ -23,6 +24,8 @@ const SignUpForm = () => {
     const [success, setSuccess] = useState<string | null>(null);
 
     const {setCurrentUser} = useContext(UserContext);
+    const navigate = useNavigate();
+
     const {firstName, lastName, email, password, confirmPassword} = user;
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +34,8 @@ const SignUpForm = () => {
     }
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-        await signUpService(event, email, password, confirmPassword, firstName, lastName, setError, setSuccess, setCurrentUser, setUser)
+        await signUpService(event, email, password, confirmPassword, firstName, lastName, setError, setSuccess, setCurrentUser, setUser);
+        navigate("/");
     }
 
 

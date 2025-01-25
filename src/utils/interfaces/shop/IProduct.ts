@@ -3,6 +3,7 @@ interface IProduct {
     name: string;
     imageUrl: string;
     price: number;
+    category?: string;
 }
 
 export type { IProduct };

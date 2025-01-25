@@ -5,6 +5,7 @@ import Button from "../button/button.component.tsx";
 import "./sign-in-form.styles.scss"
 import {UserContext} from "../../contexts/user.context.tsx";
 import signInService from "../../services/authntication/sign-in.service.ts";
+import {useNavigate} from "react-router";
 
 const SignInForm = () => {
     const [user, setUser] = useState<IUserSignInRequest>(
@@ -13,6 +14,7 @@ const SignInForm = () => {
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
     const {setCurrentUser} = useContext(UserContext);
+    const navigate = useNavigate();
     const {email, password} = user;
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -22,9 +24,10 @@ const SignInForm = () => {
 
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>,) => {
-          signInService(
+           signInService(
             event, email, password, setError, setSuccess, setCurrentUser,setUser
           );
+          navigate("/");
     }
 
     return (
