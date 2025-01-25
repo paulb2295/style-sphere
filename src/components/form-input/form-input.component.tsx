@@ -1,15 +1,15 @@
 import {IFormInputProps} from "../../utils/interfaces/props/IFormInputProps.ts";
-import "./form-input.style.scss"
+import {Group, FormInputLabel, Input} from "./form-input.style.tsx"
 
 const FormInput = (props: IFormInputProps) => {
     const {label, type, name, value, handleChange} = props;
     return (
-        <div className="group">
-            <input className='form-input' type={type} required onChange={handleChange} name={name} value={value}/>
-            <label className={`${value.length ? 'shrink' : ''} form-input-label`}>
+        <Group>
+            <Input type={type} required onChange={handleChange} name={name} value={value}/>
+            <FormInputLabel shrink={value.length}>
                 {label}
-            </label>
-        </div>
+            </FormInputLabel>
+        </Group>
     );
 }
 

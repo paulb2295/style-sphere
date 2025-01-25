@@ -1,14 +1,15 @@
-import './category-preview.styles.scss'
+import './category-preview.styles.tsx'
 import {IProduct} from "../../utils/interfaces/shop/IProduct.ts";
 import ProductCard from "../product-card/product-card.component.tsx";
+import {CategoryPreviewContainer, Preview, Title} from "./category-preview.styles.tsx";
 
 const CategoryPreview = ( { products, title }: { products: IProduct[]; title: string }) => {
     return (
-        <div className='category-preview-container'>
+        <CategoryPreviewContainer>
             <h2>
-            <span className='title'>{title}</span>
+            <Title to={title}>{title}</Title>
             </h2>
-            <div className='preview'>
+            <Preview>
                 {
                     products
                         .filter((_, idx) => idx < 4)
@@ -22,8 +23,8 @@ const CategoryPreview = ( { products, title }: { products: IProduct[]; title: st
                         />
                         )
                 }
-            </div>
-        </div>
+            </Preview>
+        </CategoryPreviewContainer>
     );
 }
 
