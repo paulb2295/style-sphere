@@ -4,4 +4,4 @@ interface ICategoryProps {
     imageUrl: string;
 }
 
-export type { ICategoryProps };
+export type {ICategoryProps};

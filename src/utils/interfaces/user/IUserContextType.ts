@@ -1,9 +1,9 @@
-import {ICurrentUser } from "./ICurrentUser.ts";
-import { Dispatch, SetStateAction } from "react";
+import {ICurrentUser} from "./ICurrentUser.ts";
+import {Dispatch, SetStateAction} from "react";
 
-interface IUserContextType{
+interface IUserContextType {
     currentUser: ICurrentUser;
     setCurrentUser: Dispatch<SetStateAction<ICurrentUser>>;
 }
 
-export type { IUserContextType };
+export type {IUserContextType};

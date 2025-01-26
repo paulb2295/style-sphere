@@ -7,4 +7,4 @@ interface ICurrentUser {
     access_token: string;
 }
 
-export type { ICurrentUser };
+export type {ICurrentUser};

@@ -6,7 +6,7 @@ const FormInput = (props: IFormInputProps) => {
     return (
         <Group>
             <Input type={type} required onChange={handleChange} name={name} value={value}/>
-            <FormInputLabel shrink={value.length}>
+            <FormInputLabel $shrink={value.length}>
                 {label}
             </FormInputLabel>
         </Group>

@@ -6,4 +6,4 @@ interface IProduct {
     category?: string;
 }
 
-export type { IProduct };
+export type {IProduct};

@@ -13,16 +13,23 @@ export const UserContext = createContext<IUserContextType>(
             role: '',
             access_token: ''
         },
-        setCurrentUser:() => null,
+        setCurrentUser: () => null,
     }
 );
 
-export const UserProvider = ({ children }: { children: ReactNode }) => {
-    const [currentUser, setCurrentUser] = useState<ICurrentUser>({id: -1, firstname: '', lastname: '', email: '', role: '', access_token: ''});
+export const UserProvider = ({children}: { children: ReactNode }) => {
+    const [currentUser, setCurrentUser] = useState<ICurrentUser>({
+        id: -1,
+        firstname: '',
+        lastname: '',
+        email: '',
+        role: '',
+        access_token: ''
+    });
     const pageHasBeenRendered = useRef<boolean>(false);
 
     useEffect(() => {
-        if(pageHasBeenRendered.current){
+        if (pageHasBeenRendered.current) {
             refreshAccessToken(setCurrentUser);
         }
         pageHasBeenRendered.current = true;

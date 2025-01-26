@@ -8,4 +8,4 @@ interface IFormInputProps {
     handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export type { IFormInputProps };
+export type {IFormInputProps};

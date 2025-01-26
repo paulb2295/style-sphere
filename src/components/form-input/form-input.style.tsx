@@ -9,7 +9,7 @@ const shrinkLabelStyles = css`
     color: ${mainColor};
 `;
 
-export const FormInputLabel = styled.label<{ shrink: number }>`
+export const FormInputLabel = styled.label<{ $shrink: number }>`
     color: ${subColor};
     font-size: 16px;
     font-weight: normal;
@@ -18,7 +18,7 @@ export const FormInputLabel = styled.label<{ shrink: number }>`
     left: 5px;
     top: 10px;
     transition: 300ms ease all;
-    ${({shrink}: { shrink: number }) => shrink && shrinkLabelStyles}
+    ${({$shrink}: { $shrink: number }) => $shrink && shrinkLabelStyles}
 `;
 
 export const Input = styled.input`
