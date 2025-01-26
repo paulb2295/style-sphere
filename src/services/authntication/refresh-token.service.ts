@@ -3,7 +3,7 @@ import {jwtDecode} from "jwt-decode";
 import {Dispatch, SetStateAction} from "react";
 import {axiosInstance} from "../axios/axiosInstance.ts";
 
-const refreshAccessToken = async (setCurrentUser: Dispatch<SetStateAction<ICurrentUser>> ) => {
+const refreshAccessToken = async (setCurrentUser: Dispatch<SetStateAction<ICurrentUser>>) => {
 
     try {
         const response =
@@ -22,12 +22,14 @@ const refreshAccessToken = async (setCurrentUser: Dispatch<SetStateAction<ICurre
         }
     } catch (error) {
         alert("Error refreshing token" + error);
-        setCurrentUser({id: -1,
+        setCurrentUser({
+            id: -1,
             firstname: '',
             lastname: '',
             email: '',
             role: '',
-            access_token: ''});
+            access_token: ''
+        });
     }
 
 };

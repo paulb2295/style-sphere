@@ -16,12 +16,12 @@ const signUpService = async (
     setSuccess: Dispatch<SetStateAction<string | null>>,
     setCurrentUser: Dispatch<SetStateAction<ICurrentUser>>,
     setUser: Dispatch<SetStateAction<IUserSignUpRequest>>,
-) => {
+): Promise<boolean> => {
     event.preventDefault();
     if (password !== confirmPassword) {
         setError("Passwords don't match");
         alert("Passwords don't match");
-        return;
+        return false;
     }
     setError(null);
     setSuccess(null);
@@ -31,26 +31,32 @@ const signUpService = async (
         "email": email,
         "password": password,
     }
-    axiosInstance.post(`/api/auth/register`, payload)
-        .then(response => {
-            setSuccess("Registration successful!");
-            const decodedToken: ICurrentUser = jwtDecode(response.data.access_token);
-            const currentUser: ICurrentUser = {
-                id: decodedToken.id,
-                firstname: decodedToken.firstname,
-                lastname: decodedToken.lastname,
-                email: decodedToken.email,
-                role: decodedToken.role,
-                access_token: response.data.access_token
-            }
-            setCurrentUser(currentUser);
-            localStorage.setItem(ACCESS_TOKEN_NAME, response.data.access_token);
-            setUser({firstName: '', lastName: '', email: '', password: '', confirmPassword: ''})
+    try {
+        const response = await axiosInstance.post(`/api/auth/register`, payload);
 
-        })
-        .catch(error => {
-            setError(error.message)
-        })
+        setSuccess("Registration successful!");
+        const decodedToken: ICurrentUser = jwtDecode(response.data.access_token);
+        const currentUser: ICurrentUser = {
+            id: decodedToken.id,
+            firstname: decodedToken.firstname,
+            lastname: decodedToken.lastname,
+            email: decodedToken.email,
+            role: decodedToken.role,
+            access_token: response.data.access_token
+        }
+        setCurrentUser(currentUser);
+        localStorage.setItem(ACCESS_TOKEN_NAME, response.data.access_token);
+        setUser({firstName: '', lastName: '', email: '', password: '', confirmPassword: ''})
+        return true;
+
+    } catch (error) {
+        if (error instanceof Error) {
+            setError(error.message);
+        } else {
+            setError("An unexpected error occurred.");
+        }
+        return false;
+    }
 }
 
 export default signUpService;

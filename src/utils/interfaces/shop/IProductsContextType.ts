@@ -8,4 +8,4 @@ interface IProductsContextType {
     fetchProductsByCategory: (s: string) => void;
 }
 
-export type { IProductsContextType };
+export type {IProductsContextType};

@@ -14,13 +14,13 @@ axiosInstance.interceptors.response.use(
         return response;
     },
     (error) => {
-        let errorMessage:string;
+        let errorMessage: string;
         const errorList: string[] = [];
         if (error.response) {
 
             const {data} = error.response;
 
-            for(const prop in data){
+            for (const prop in data) {
                 errorList.push(data[prop]);
             }
 

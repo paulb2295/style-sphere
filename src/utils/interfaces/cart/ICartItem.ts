@@ -6,4 +6,4 @@ interface ICartItem {
     quantity: number;
 }
 
-export type { ICartItem };
+export type {ICartItem};

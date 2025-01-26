@@ -23,7 +23,8 @@ export const HeaderBlock = styled.div`
 
     &:last-child {
         width: 8%;
-    };
+    }
+;
 `;
 
 export const Total = styled.span`

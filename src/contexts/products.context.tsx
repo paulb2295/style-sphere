@@ -30,7 +30,7 @@ export const ProductProvider = ({children}: { children: ReactNode }) => {
         fetchAllProducts();
     }, [])
 
-    const value = {products, setProducts,  fetchProductsByCategory, allProducts};
+    const value = {products, setProducts, fetchProductsByCategory, allProducts};
 
     return <ProductsContext.Provider value={value}>
         {children}

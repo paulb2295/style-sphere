@@ -18,7 +18,7 @@ const DirectoryItem = (props: ICategoryProps) => {
     return (
         <DirectoryItemContainer onClick={selectCategoryAndNavigateToShop}>
             <BackgroundImage
-                 imageUrl={imageUrl}
+                $imageUrl={imageUrl}
             />
             <Body>
                 <h2>{title}</h2>

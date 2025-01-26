@@ -6,4 +6,4 @@ interface IUserSignUpRequest {
     confirmPassword: string;
 }
 
-export type { IUserSignUpRequest };
+export type {IUserSignUpRequest};

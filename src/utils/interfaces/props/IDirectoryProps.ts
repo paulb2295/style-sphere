@@ -4,4 +4,4 @@ interface IDirectoryProps {
     categories: ICategoryProps[];
 }
 
-export type { IDirectoryProps };
+export type {IDirectoryProps};

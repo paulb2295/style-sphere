@@ -23,4 +23,4 @@ const getProductsByCategory = async (category: string): Promise<IProduct[]> => {
     }
 }
 
-export { getAllProducts, getProductsByCategory };
+export {getAllProducts, getProductsByCategory};

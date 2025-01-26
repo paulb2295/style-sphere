@@ -4,7 +4,7 @@ import {jwtDecode} from "jwt-decode";
 import {IUserSignInRequest} from "../../utils/interfaces/user/IUserSignInRequest.ts";
 import {axiosInstance} from "../axios/axiosInstance.ts";
 
-const signInService = (
+const signInService = async (
     event: FormEvent<HTMLFormElement>,
     email: string,
     password: string,
@@ -12,12 +12,12 @@ const signInService = (
     setSuccess: Dispatch<SetStateAction<string | null>>,
     setCurrentUser: Dispatch<SetStateAction<ICurrentUser>>,//(currentUser: ICurrentUser) => void,
     setUser: Dispatch<SetStateAction<IUserSignInRequest>>//(user: IUserSignInRequest) => void,
-) => {
+): Promise<boolean> => {
     event.preventDefault();
     if (!email || !password) {
-        alert("Fields mandatory");
-        setError("Fields mandatory");
-        return;
+        alert("Sign In Fields mandatory");
+        setError("Sign In Fields mandatory");
+        return false;
     }
     setError(null);
     setSuccess(null);
@@ -26,24 +26,31 @@ const signInService = (
         "password": password,
     }
 
-    axiosInstance.post(`/api/auth/authenticate`, payload)
-        .then((res) => {
-            setSuccess("Sign in successful!");
-            const decodedToken: ICurrentUser = jwtDecode(res.data.access_token);
-            const currentUser: ICurrentUser = {
-                id: decodedToken.id,
-                firstname: decodedToken.firstname,
-                lastname: decodedToken.lastname,
-                email: decodedToken.email,
-                role: decodedToken.role,
-                access_token: res.data.access_token
-            }
-            setCurrentUser(currentUser);
-            setUser({email: '', password: ''});
-        })
-        .catch(error => {
+    try {
+        const res = await axiosInstance.post(`/api/auth/authenticate`, payload)
+        setSuccess("Sign in successful!");
+        const decodedToken: ICurrentUser = jwtDecode(res.data.access_token);
+        const currentUser: ICurrentUser = {
+            id: decodedToken.id,
+            firstname: decodedToken.firstname,
+            lastname: decodedToken.lastname,
+            email: decodedToken.email,
+            role: decodedToken.role,
+            access_token: res.data.access_token
+        }
+        setCurrentUser(currentUser);
+        setUser({email: '', password: ''});
+        return true;
+
+    } catch (error) {
+        if (error instanceof Error) {
             setError(error.message);
-        })
+        } else {
+            setError("An unexpected error occurred.");
+        }
+        return false;
+    }
+
 }
 
 export default signInService;

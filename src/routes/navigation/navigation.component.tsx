@@ -37,9 +37,9 @@ const Navigation = () => {
                             SIGN OUT
                         </Anchor>
                     }
-                    <CartIcon />
+                    <CartIcon/>
                 </NavLinks>
-                {isCartOpen && <CartDropdown />}
+                {isCartOpen && <CartDropdown/>}
             </NavigationContainer>
             <Outlet/>
         </Fragment>

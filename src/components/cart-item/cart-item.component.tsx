@@ -9,7 +9,7 @@ const CartItem = (props: ICartItem) => {
             <Image src={imageUrl} alt={name}/>
             <ItemDetails>
                 <Name>{name}</Name>
-                <span >{quantity} x {`$${price}`}</span>
+                <span>{quantity} x {`$${price}`}</span>
             </ItemDetails>
         </CartItemContainer>
     );
