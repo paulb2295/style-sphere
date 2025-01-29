@@ -1,5 +1,5 @@
 import {useContext} from "react";
-import {CartItemsContext} from "../../contexts/cart-items.context.tsx";
+import {CartContext} from "../../contexts/cart.context.tsx";
 import {ICartItem} from "../../utils/interfaces/cart/ICartItem.ts";
 import './checkout-item.styles.tsx'
 import {
@@ -13,7 +13,7 @@ import {
 } from "./checkout-item.styles.tsx";
 
 const CheckoutItem = (cartItem: ICartItem) => {
-    const {deleteItemFromCart, increaseDecreaseItemQuantity} = useContext(CartItemsContext)
+    const {deleteItemFromCart, increaseDecreaseItemQuantity} = useContext(CartContext)
     const {name, imageUrl, price, quantity} = cartItem;
 
     const clearItemHandler = () => deleteItemFromCart(cartItem);

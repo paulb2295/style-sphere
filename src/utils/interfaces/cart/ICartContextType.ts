@@ -2,7 +2,9 @@ import {Dispatch, SetStateAction} from "react";
 import {ICartItem} from "./ICartItem.ts";
 import {IProduct} from "../shop/IProduct.ts";
 
-interface ICartItemsContextType {
+interface ICartContextType {
+    isCartOpen: boolean;
+    setIsCartOpen: Dispatch<SetStateAction<boolean>>
     cartItems: ICartItem[];
     setCartItems: Dispatch<SetStateAction<ICartItem[]>>
     addItemToCart: (product: IProduct) => void;
@@ -12,4 +14,4 @@ interface ICartItemsContextType {
     cartCount: number
 }
 
-export type {ICartItemsContextType};
+export type {ICartContextType};

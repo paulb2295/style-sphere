@@ -1,11 +1,11 @@
 import {useContext} from "react";
-import {CartItemsContext} from "../../contexts/cart-items.context.tsx";
+import {CartContext} from "../../contexts/cart.context.tsx";
 import CheckoutItem from "../../components/checkout-item/checkout-item.component.tsx";
 import './checkout.styles.tsx'
 import {CheckoutContainer, CheckoutHeader, HeaderBlock, Total} from "./checkout.styles.tsx";
 
 const Checkout = () => {
-    const {cartItems, cartTotal} = useContext(CartItemsContext)
+    const {cartItems, cartTotal} = useContext(CartContext)
 
     return (
         <CheckoutContainer>
