@@ -1,13 +1,15 @@
-import {createContext, ReactNode, useEffect, useState} from "react";
+import {createContext, ReactNode, useReducer,} from "react";
 import {ICartContextType} from "../utils/interfaces/cart/ICartContextType.ts";
 import {ICartItem} from "../utils/interfaces/cart/ICartItem.ts";
 import {IProduct} from "../utils/interfaces/shop/IProduct.ts";
+import {CartState} from "../utils/interfaces/reducers/cart/CartState.ts";
+import {CART_ACTION_TYPES, CartActions} from "../utils/interfaces/reducers/cart/CartActions.ts";
 
 export const CartContext = createContext<ICartContextType>({
     isCartOpen: false,
     setIsCartOpen: () => {},
     cartItems: [],
-    setCartItems: () => null,
+    //setCartItems: () => null,
     addItemToCart: () => null,
     deleteItemFromCart: () => null,
     increaseDecreaseItemQuantity: () => null,
@@ -15,43 +17,79 @@ export const CartContext = createContext<ICartContextType>({
     cartCount: 0
 });
 
+const INITIAL_STATE: CartState = {
+    isCartOpen: false,
+    cartItems: [],
+    cartTotal: 0,
+    cartCount: 0
+}
+
+const cartReducer = (state: CartState, action: CartActions): CartState => {
+    const {type, payload} = action;
+    switch (type) {
+        case CART_ACTION_TYPES.SET_IS_CART_OPEN:
+            return {
+                ...state,
+                isCartOpen: payload,
+            };
+        case CART_ACTION_TYPES.SET_CART_ITEMS:
+            return {
+                ...state,
+                ...payload
+            };
+        default:
+            throw new Error(`Unhandled type ${type} in productsReducer`);
+    }
+}
+
 export const CartProvider = ({children}: { children: ReactNode }) => {
-    const [cartItems, setCartItems] = useState<ICartItem[]>([]);
-    const [cartTotal, setCartTotal] = useState(0);
-    const [cartCount, setCartCount] = useState(0);
-    const [isCartOpen, setIsCartOpen] = useState(false);
 
-    useEffect(() => {
-        const newTotal = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
-        setCartTotal(newTotal);
-    }, [cartItems]);
+    const [state, dispatch] = useReducer(cartReducer, INITIAL_STATE);
 
-    useEffect(() => {
-        const newCartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
-        setCartCount(newCartCount);
-    }, [cartItems])
+    const cartItems = state.cartItems;
+    const isCartOpen = state.isCartOpen;
+    const cartTotal = state.cartTotal;
+    const cartCount = state.cartCount;
+
 
 
     const addItemToCart = (product: IProduct) => {
         const updatedCartItems = addCartItem(cartItems, product);
-        setCartItems(updatedCartItems);
+        dispatchCartItemsAction(updatedCartItems);
     }
 
     const deleteItemFromCart = (cartItem: ICartItem) => {
         const updatedCartItems = deleteCartItem(cartItems, cartItem);
-        setCartItems(updatedCartItems);
+        dispatchCartItemsAction(updatedCartItems);
     }
 
     const increaseDecreaseItemQuantity = (cartItem: ICartItem, action: boolean) => {
         const updatedCartItems = increaseDecreaseQuantity(cartItems, cartItem, action);
-        setCartItems(updatedCartItems);
+        dispatchCartItemsAction(updatedCartItems);
+    }
+
+    const dispatchCartItemsAction = (updatedCartItems: ICartItem[]) => {
+        dispatch({
+            type: CART_ACTION_TYPES.SET_CART_ITEMS,
+            payload: {
+                cartItems: updatedCartItems,
+                cartTotal: updatedCartItems.reduce((total, item) => total + (item.price * item.quantity), 0),
+                cartCount: updatedCartItems.reduce((total, item) => total + item.quantity, 0)
+            }
+        });
+    }
+
+    const setIsCartOpen = () => {
+        dispatch({
+            type: CART_ACTION_TYPES.SET_IS_CART_OPEN,
+            payload: !isCartOpen
+        })
     }
 
     const value = {
         isCartOpen,
         setIsCartOpen,
         cartItems,
-        setCartItems,
         addItemToCart,
         deleteItemFromCart,
         increaseDecreaseItemQuantity,
@@ -65,6 +103,7 @@ export const CartProvider = ({children}: { children: ReactNode }) => {
         </CartContext.Provider>
     )
 }
+
 
 
 const addCartItem = (cartArray: ICartItem[], productToAdd: IProduct): ICartItem[] => {
@@ -100,5 +139,4 @@ const increaseDecreaseQuantity = (cartArray: ICartItem[], cartItem: ICartItem, a
     }
     return cartArray;
 }
-
 

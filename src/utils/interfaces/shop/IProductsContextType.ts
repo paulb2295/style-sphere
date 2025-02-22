@@ -1,10 +1,10 @@
 import {IProduct} from "./IProduct.ts";
-import {Dispatch, SetStateAction} from "react";
+
 
 interface IProductsContextType {
     products: IProduct[];
     allProducts: IProduct[];
-    setProducts: Dispatch<SetStateAction<IProduct[]>>
+    setProducts: (products: IProduct[]) => void,
     fetchProductsByCategory: (s: string) => void;
 }
 

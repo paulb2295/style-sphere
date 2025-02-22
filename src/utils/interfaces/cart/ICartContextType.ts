@@ -6,7 +6,6 @@ interface ICartContextType {
     isCartOpen: boolean;
     setIsCartOpen: Dispatch<SetStateAction<boolean>>
     cartItems: ICartItem[];
-    setCartItems: Dispatch<SetStateAction<ICartItem[]>>
     addItemToCart: (product: IProduct) => void;
     deleteItemFromCart: (product: ICartItem) => void;
     increaseDecreaseItemQuantity: (product: ICartItem, action: boolean) => void;

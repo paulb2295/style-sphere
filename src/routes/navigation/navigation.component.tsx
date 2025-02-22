@@ -23,10 +23,7 @@ const Navigation = () => {
                     <NavLink to='/shop'>
                         SHOP
                     </NavLink>
-                    {currentUser.access_token === '' ?
-                        <NavLink to='/auth'>
-                            SIGN IN
-                        </NavLink> :
+                    {currentUser?
                         <Anchor onClick={
                             async () => {
                                 await signOutService(setCurrentUser, currentUser);
@@ -34,7 +31,10 @@ const Navigation = () => {
                             }
                         }>
                             SIGN OUT
-                        </Anchor>
+                        </Anchor> :
+                        <NavLink to='/auth'>
+                            SIGN IN
+                        </NavLink>
                     }
                     <CartIcon/>
                 </NavLinks>
