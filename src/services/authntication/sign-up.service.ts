@@ -14,7 +14,7 @@ const signUpService = async (
     lastName: string,
     setError: Dispatch<SetStateAction<string | null>>,
     setSuccess: Dispatch<SetStateAction<string | null>>,
-    setCurrentUser: Dispatch<SetStateAction<ICurrentUser>>,
+    setCurrentUser: (user: ICurrentUser) => void,
     setUser: Dispatch<SetStateAction<IUserSignUpRequest>>,
 ): Promise<boolean> => {
     event.preventDefault();

@@ -10,7 +10,7 @@ const signInService = async (
     password: string,
     setError: Dispatch<SetStateAction<string | null>>,
     setSuccess: Dispatch<SetStateAction<string | null>>,
-    setCurrentUser: Dispatch<SetStateAction<ICurrentUser>>,//(currentUser: ICurrentUser) => void,
+    setCurrentUser: (user: ICurrentUser) => void,
     setUser: Dispatch<SetStateAction<IUserSignInRequest>>//(user: IUserSignInRequest) => void,
 ): Promise<boolean> => {
     event.preventDefault();
