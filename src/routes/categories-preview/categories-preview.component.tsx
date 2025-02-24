@@ -1,10 +1,11 @@
-import {useContext} from "react";
-import {ProductsContext} from "../../contexts/products.context.tsx";
 import CategoryPreview from "../../components/category-preview/category-preview.component.tsx";
+import {useSelector} from "react-redux";
+import {selectAllProducts} from "../../store/products/product.selector.ts";
+
 
 
 const CategoriesPreview = () => {
-    const {allProducts} = useContext(ProductsContext)
+    const allProducts = useSelector(selectAllProducts);
     const categories = Array.from(new Set(allProducts.map((item) => item.category)));
 
     return (
@@ -18,8 +19,6 @@ const CategoriesPreview = () => {
             ))}
         </>
     );
-
-
 }
 
 export default CategoriesPreview;

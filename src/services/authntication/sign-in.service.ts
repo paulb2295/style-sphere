@@ -3,6 +3,8 @@ import {ICurrentUser} from "../../utils/interfaces/user/ICurrentUser.ts";
 import {jwtDecode} from "jwt-decode";
 import {IUserSignInRequest} from "../../utils/interfaces/user/IUserSignInRequest.ts";
 import {axiosInstance} from "../axios/axiosInstance.ts";
+import {UserAction} from "../../utils/interfaces/reducers/user/SetCurrentUserAction.ts";
+import {setCurrentUserAction} from "../../store/user/user.action.ts";
 
 const signInService = async (
     event: FormEvent<HTMLFormElement>,
@@ -10,7 +12,7 @@ const signInService = async (
     password: string,
     setError: Dispatch<SetStateAction<string | null>>,
     setSuccess: Dispatch<SetStateAction<string | null>>,
-    setCurrentUser: (user: ICurrentUser) => void,
+    dispatch: Dispatch<UserAction>,
     setUser: Dispatch<SetStateAction<IUserSignInRequest>>//(user: IUserSignInRequest) => void,
 ): Promise<boolean> => {
     event.preventDefault();
@@ -38,7 +40,7 @@ const signInService = async (
             role: decodedToken.role,
             access_token: res.data.access_token
         }
-        setCurrentUser(currentUser);
+        dispatch(setCurrentUserAction(currentUser));
         setUser({email: '', password: ''});
         return true;
 
