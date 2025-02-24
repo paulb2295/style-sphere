@@ -4,6 +4,8 @@ import {ICurrentUser} from "../../utils/interfaces/user/ICurrentUser.ts";
 import {IUserSignUpRequest} from "../../utils/interfaces/user/IUserSignUpRequest.ts";
 import {jwtDecode} from "jwt-decode";
 import {axiosInstance} from "../axios/axiosInstance.ts";
+import {UserAction} from "../../utils/interfaces/reducers/user/SetCurrentUserAction.ts";
+import {setCurrentUserAction} from "../../store/user/user.action.ts";
 
 const signUpService = async (
     event: FormEvent<HTMLFormElement>,
@@ -14,7 +16,7 @@ const signUpService = async (
     lastName: string,
     setError: Dispatch<SetStateAction<string | null>>,
     setSuccess: Dispatch<SetStateAction<string | null>>,
-    setCurrentUser: (user: ICurrentUser) => void,
+    dispatch: Dispatch<UserAction>,
     setUser: Dispatch<SetStateAction<IUserSignUpRequest>>,
 ): Promise<boolean> => {
     event.preventDefault();
@@ -44,7 +46,7 @@ const signUpService = async (
             role: decodedToken.role,
             access_token: response.data.access_token
         }
-        setCurrentUser(currentUser);
+        dispatch(setCurrentUserAction(currentUser));
         localStorage.setItem(ACCESS_TOKEN_NAME, response.data.access_token);
         setUser({firstName: '', lastName: '', email: '', password: '', confirmPassword: ''})
         return true;

@@ -3,20 +3,18 @@ import {createRoot} from 'react-dom/client'
 import './index.scss'
 import App from './App.tsx'
 import {BrowserRouter} from "react-router";
-import {UserProvider} from "./contexts/user.context.tsx";
-import {ProductProvider} from "./contexts/products.context.tsx";
-import {CartProvider} from "./contexts/cart.context.tsx";
+import {Provider} from "react-redux";
+import {persistor, store} from "./store/store.ts";
+import {PersistGate} from 'redux-persist/integration/react'
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <BrowserRouter>
-            <UserProvider>
-                <CartProvider>
-                    <ProductProvider>
-                        <App/>
-                    </ProductProvider>
-                </CartProvider>
-            </UserProvider>
-        </BrowserRouter>
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+            <BrowserRouter>
+                <App/>
+            </BrowserRouter>
+            </PersistGate>
+        </Provider>
     </StrictMode>,
 );

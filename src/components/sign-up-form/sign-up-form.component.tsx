@@ -1,12 +1,13 @@
-import {useState, ChangeEvent, FormEvent, useContext} from "react";
+import {useState, ChangeEvent, FormEvent} from "react";
 import {IUserSignUpRequest} from "../../utils/interfaces/user/IUserSignUpRequest.ts";
 import FormInput from "../form-input/form-input.component.tsx";
 import "./sign-up-form.styles.tsx"
 import Button from "../button/button.component.tsx";
-import {UserContext} from "../../contexts/user.context.tsx";
 import signUpService from "../../services/authntication/sign-up.service.ts";
 import {SignUpContainer} from "./sign-up-form.styles.tsx";
 import {useNavigate} from "react-router";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../../store/store.ts";
 
 const SignUpForm = () => {
 
@@ -22,7 +23,8 @@ const SignUpForm = () => {
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
 
-    const {setCurrentUser} = useContext(UserContext);
+    const dispatch = useDispatch<AppDispatch>();
+
     const navigate = useNavigate();
 
     const {firstName, lastName, email, password, confirmPassword} = user;
@@ -33,7 +35,7 @@ const SignUpForm = () => {
     }
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-        const isSuccessful = await signUpService(event, email, password, confirmPassword, firstName, lastName, setError, setSuccess, setCurrentUser, setUser);
+        const isSuccessful = await signUpService(event, email, password, confirmPassword, firstName, lastName, setError, setSuccess, dispatch, setUser);
         if (isSuccessful) {
             navigate("/");
         }

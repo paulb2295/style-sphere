@@ -1,5 +1,4 @@
-import {useContext} from "react";
-import {CartContext} from "../../contexts/cart.context.tsx";
+import {deleteItemFromCart, increaseDecreaseItemQuantity} from "../../store/cart/cart.action.ts";
 import {ICartItem} from "../../utils/interfaces/cart/ICartItem.ts";
 import './checkout-item.styles.tsx'
 import {
@@ -11,14 +10,20 @@ import {
     QuantityContainer, RemoveButton,
     Value
 } from "./checkout-item.styles.tsx";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch} from "../../store/store.ts";
+import {selectCartItems} from "../../store/cart/cart.selector.ts";
 
 const CheckoutItem = (cartItem: ICartItem) => {
-    const {deleteItemFromCart, increaseDecreaseItemQuantity} = useContext(CartContext)
+
+    const cartItems = useSelector(selectCartItems);
+    const dispatch = useDispatch<AppDispatch>();
     const {name, imageUrl, price, quantity} = cartItem;
 
-    const clearItemHandler = () => deleteItemFromCart(cartItem);
-    const increaseHandler = () => increaseDecreaseItemQuantity(cartItem, true);
-    const decreaseHandler = () => increaseDecreaseItemQuantity(cartItem, false);
+
+    const clearItemHandler = () => dispatch( deleteItemFromCart(cartItems, cartItem));
+    const increaseHandler = () => dispatch(increaseDecreaseItemQuantity(cartItems,cartItem, true));
+    const decreaseHandler = () => dispatch(increaseDecreaseItemQuantity(cartItems, cartItem, false));
     return (
         <CheckoutItemContainer>
             <ImageContainer>
