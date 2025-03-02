@@ -1,13 +1,14 @@
-import {useState, ChangeEvent, FormEvent} from "react";
+import {useState, ChangeEvent, FormEvent, useEffect} from "react";
 import {IUserSignUpRequest} from "../../utils/interfaces/user/IUserSignUpRequest.ts";
 import FormInput from "../form-input/form-input.component.tsx";
 import "./sign-up-form.styles.tsx"
 import Button from "../button/button.component.tsx";
-import signUpService from "../../services/authntication/sign-up.service.ts";
 import {SignUpContainer} from "./sign-up-form.styles.tsx";
 import {useNavigate} from "react-router";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../../store/store.ts";
+import {signUpStart} from "../../store/user/user.action.ts";
+import {selectCurrentUser} from "../../store/user/user.selector.ts";
 
 const SignUpForm = () => {
 
@@ -20,12 +21,15 @@ const SignUpForm = () => {
             confirmPassword: ''
         }
     );
-    const [error, setError] = useState<string | null>(null);
-    const [success, setSuccess] = useState<string | null>(null);
-
+    const globalUser = useSelector(selectCurrentUser);
     const dispatch = useDispatch<AppDispatch>();
-
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (globalUser) {
+            navigate("/");
+        }
+    }, [globalUser])
 
     const {firstName, lastName, email, password, confirmPassword} = user;
 
@@ -35,11 +39,15 @@ const SignUpForm = () => {
     }
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-        const isSuccessful = await signUpService(event, email, password, confirmPassword, firstName, lastName, setError, setSuccess, dispatch, setUser);
-        if (isSuccessful) {
-            navigate("/");
+        event.preventDefault();
+        const signUpRequest: IUserSignUpRequest = {
+            email: email,
+            password: password,
+            confirmPassword: confirmPassword,
+            firstName: firstName,
+            lastName: lastName,
         }
-
+        dispatch(signUpStart(signUpRequest))
     }
 
     return (
@@ -57,15 +65,6 @@ const SignUpForm = () => {
                            handleChange={handleChange}/>
                 <Button buttonType='base' type="submit">Sign Up</Button>
             </form>
-            {error ? (
-                <p style={{color: 'red'}}
-                   dangerouslySetInnerHTML={{
-                       __html: error.replace(/\n/g, '<br/>'),
-                   }}
-                />
-            ) : (
-                <p style={{color: 'green'}}>{success}</p>
-            )}
         </SignUpContainer>
     );
 }

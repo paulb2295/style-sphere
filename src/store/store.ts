@@ -1,10 +1,11 @@
 import {compose, createStore, applyMiddleware, Middleware} from 'redux'
-import {thunk} from 'redux-thunk'
 import logger from 'redux-logger';
 import {rootReducer, RootState} from "./root-reducer.ts";
 import storage from 'redux-persist/lib/storage';
-import { persistStore, persistReducer } from 'redux-persist';
+import {persistStore, persistReducer} from 'redux-persist';
 import {PersistConfig} from "redux-persist/es/types";
+import createSagaMiddleware from 'redux-saga'
+import {rootSaga} from "./root-saga.ts";
 
 declare global {
     interface Window {
@@ -16,22 +17,21 @@ type ExtendedPersistConfig = PersistConfig<RootState> & {
     whitelist: (keyof RootState)[]
 }
 
-const persistConfig : ExtendedPersistConfig = {
+const persistConfig: ExtendedPersistConfig = {
     key: 'root',
     storage,
     whitelist: ['cart']
 }
 
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
 const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const sagaMiddleware = createSagaMiddleware();
 
 const middlewares = [
     process.env.NODE_ENV !== 'production' && logger,
-    thunk
+    sagaMiddleware
 ].filter(
-    (middleware) : middleware is Middleware => Boolean(middleware) //or just Boolean
+    (middleware): middleware is Middleware => Boolean(middleware) //or just Boolean
 );
 
 
@@ -52,6 +52,6 @@ export const store = createStore(
 
 export type AppDispatch = typeof store.dispatch;
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
+sagaMiddleware.run(rootSaga);
+
 export const persistor = persistStore(store);
