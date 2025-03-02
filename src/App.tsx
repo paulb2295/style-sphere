@@ -8,8 +8,7 @@ import {useEffect, useRef} from "react";
 import refreshAccessToken from "./services/authntication/refresh-token.service.ts";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "./store/store.ts";
-import {getAllProducts} from "./services/shop/shop.service.ts";
-import {setAllProductsAction} from "./store/products/product.action.ts";
+import {fetchProductsAsync} from "./store/products/product.action.ts";
 
 
 const App = () => {
@@ -32,11 +31,9 @@ const App = () => {
 
 
     useEffect(() => {
-        const fetchAllProducts = async () => {
-            const productList = await getAllProducts();
-            dispatch(setAllProductsAction(productList));
-        };
-        fetchAllProducts();
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        dispatch(fetchProductsAsync());
     }, [dispatch])
 
 
