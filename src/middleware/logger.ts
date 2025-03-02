@@ -1,14 +1,16 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-export const loggerMiddleware = (store) => (next) => (action) => {
-    if(!action.type){
+import {Middleware, UnknownAction} from "redux";
+import {RootState} from "../store/root-reducer.ts";
+
+
+export const loggerMiddleware : Middleware<object, RootState> = (store) => (next) => (action) => {
+    const {type, payload} = action as UnknownAction;
+    if(!type){
         return next(action);
     }
-    console.log('type: ', action.type);
-    console.log('payload: ', action.payload);
+    console.log('type: ', type);
+    console.log('payload: ', payload);
     console.log('currentState: ', store.getState());
 
     next(action);
     console.log('nextState: ', store.getState());
-
 }

@@ -1,10 +1,32 @@
 import {IProduct} from "../../utils/interfaces/shop/IProduct.ts";
-import {PRODUCTS_ACTIONS_TYPES, ProductsActions} from "./product.types.ts";
+import {PRODUCTS_ACTIONS_TYPES} from "./product.types.ts";
+import {AppDispatch} from "../store.ts";
+import {getAllProducts} from "../../services/shop/shop.service.ts";
+import {Action, ActionWithPayload, createAction, withMatcher} from "../../utils/reducer/reducer.utils.ts";
 
-export const setAllProductsAction = (products: IProduct[]): ProductsActions => {
-    return {
-        type: PRODUCTS_ACTIONS_TYPES.SET_PRODUCTS,
-        payload: products
+export type FetchCategoriesStart = Action<PRODUCTS_ACTIONS_TYPES.FETCH_PRODUCTS_START>;
+export type FetchCategoriesSuccess = ActionWithPayload<PRODUCTS_ACTIONS_TYPES.FETCH_PRODUCTS_SUCCESS, IProduct[]>
+export type FetchCategoriesFailure = ActionWithPayload<PRODUCTS_ACTIONS_TYPES.FETCH_PRODUCTS_FAILED, Error>
+
+export const fetchProductsStart = withMatcher((): FetchCategoriesStart => {
+    return createAction(PRODUCTS_ACTIONS_TYPES.FETCH_PRODUCTS_START);
+});
+
+export const fetchProductsSuccess = withMatcher((products: IProduct[]): FetchCategoriesSuccess => {
+    return createAction(PRODUCTS_ACTIONS_TYPES.FETCH_PRODUCTS_SUCCESS, products);
+});
+
+export const fetchProductsFailed = withMatcher((err: Error): FetchCategoriesFailure => {
+    return createAction(PRODUCTS_ACTIONS_TYPES.FETCH_PRODUCTS_FAILED, err)
+});
+
+export const fetchProductsAsync = () => async (dispatch: AppDispatch) => {
+    dispatch(fetchProductsStart());
+    try {
+        const productList = await getAllProducts();
+        dispatch(fetchProductsSuccess(productList));
+    } catch (error) {
+        dispatch(fetchProductsFailed(error as Error));
     }
 }
 
