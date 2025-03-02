@@ -1,25 +1,30 @@
 import {IUserSignInRequest} from "../../utils/interfaces/user/IUserSignInRequest.ts";
 import FormInput from "../form-input/form-input.component.tsx";
-import {ChangeEvent, FormEvent, useState} from "react";
+import {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import Button from "../button/button.component.tsx";
 import "./sign-in-form.styles.tsx"
-
-import signInService from "../../services/authntication/sign-in.service.ts";
 import {SignInContainer} from "./sign-in-form.styles.tsx";
 import {useNavigate} from "react-router";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../../store/store.ts";
+import {signInStart} from "../../store/user/user.action.ts";
+import {selectCurrentUser} from "../../store/user/user.selector.ts";
 
 const SignInForm = () => {
     const [user, setUser] = useState<IUserSignInRequest>(
         {email: "", password: ""}
     );
-    const [error, setError] = useState<string | null>(null);
-    const [success, setSuccess] = useState<string | null>(null);
 
     const dispatch = useDispatch<AppDispatch>();
-
+    const globalUser = useSelector(selectCurrentUser);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (globalUser) {
+            navigate("/");
+        }
+    }, [globalUser])
+
     const {email, password} = user;
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -28,11 +33,10 @@ const SignInForm = () => {
     }
 
 
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>,) => {
-        const isSuccessful = await signInService(event, email, password, setError, setSuccess, dispatch, setUser);
-        if (isSuccessful) {
-            navigate("/");
-        }
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const signInRequest: IUserSignInRequest = {email: email, password: password};
+        dispatch(signInStart(signInRequest))
     }
 
     return (
@@ -45,15 +49,6 @@ const SignInForm = () => {
                            handleChange={handleChange}/>
                 <Button buttonType='base' type='submit'>Sign In</Button>
             </form>
-            {error ? (
-                <p style={{color: 'red'}}
-                   dangerouslySetInnerHTML={{
-                       __html: error.replace(/\n/g, '<br/>'),
-                   }}
-                />
-            ) : (
-                <p style={{color: 'green'}}>{success}</p>
-            )}
         </SignInContainer>
     );
 }

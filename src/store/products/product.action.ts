@@ -1,7 +1,5 @@
 import {IProduct} from "../../utils/interfaces/shop/IProduct.ts";
 import {PRODUCTS_ACTIONS_TYPES} from "./product.types.ts";
-import {AppDispatch} from "../store.ts";
-import {getAllProducts} from "../../services/shop/shop.service.ts";
 import {Action, ActionWithPayload, createAction, withMatcher} from "../../utils/reducer/reducer.utils.ts";
 
 export type FetchCategoriesStart = Action<PRODUCTS_ACTIONS_TYPES.FETCH_PRODUCTS_START>;
@@ -20,13 +18,5 @@ export const fetchProductsFailed = withMatcher((err: Error): FetchCategoriesFail
     return createAction(PRODUCTS_ACTIONS_TYPES.FETCH_PRODUCTS_FAILED, err)
 });
 
-export const fetchProductsAsync = () => async (dispatch: AppDispatch) => {
-    dispatch(fetchProductsStart());
-    try {
-        const productList = await getAllProducts();
-        dispatch(fetchProductsSuccess(productList));
-    } catch (error) {
-        dispatch(fetchProductsFailed(error as Error));
-    }
-}
+
 

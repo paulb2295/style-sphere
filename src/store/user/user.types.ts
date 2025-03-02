@@ -1,14 +1,14 @@
-import {ICurrentUser} from "../../utils/interfaces/user/ICurrentUser.ts";
-
-export const USER_ACTION_TYPES = {
-    SET_CURRENT_USER: "SET_CURRENT_USER",
-}as const;
-
-type UserActionTypes = keyof typeof USER_ACTION_TYPES;
-
-interface UserAction<T extends UserActionTypes, P>{
-    type: typeof USER_ACTION_TYPES[T];
-    payload: P;
+export const enum USER_ACTION_TYPES {
+    SIGN_IN_START = 'SIGN_IN_START',
+    SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS',
+    SIGN_IN_FAILURE = 'SIGN_IN_FAILURE',
+    SIGN_UP_START = 'SIGN_UP_START',
+    SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS',
+    SIGN_UP_FAILURE = 'SIGN_UP_FAILURE',
+    SIGN_OUT_START = 'SIGN_OUT_START',
+    SIGN_OUT_SUCCESS = 'SIGN_OUT_SUCCESS',
+    SIGN_OUT_FAILURE = 'SIGN_OUT_FAILURE',
+    REFRESH_USER_START = 'REFRESH_USER_START',
+    REFRESH_USER_SUCCESS = 'REFRESH_USER_SUCCESS',
+    REFRESH_USER_FAILURE = 'REFRESH_USER_FAILURE',
 }
-
-export type UserActions = | UserAction<"SET_CURRENT_USER", ICurrentUser | null>
